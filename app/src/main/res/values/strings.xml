@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Wenjian</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="share">分享</string>
+    <string name="about">关于</string>
+    <string name="change_city">切换城市</string>
+</resources>

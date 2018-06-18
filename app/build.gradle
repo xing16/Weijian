@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+// 在MobSDK的扩展中注册ShareSDK的相关信息
+MobSDK {
+    appKey "25109e172e35b"
+    appSecret "53d7e394a69bc79afcf4608d5be67d7a"
+
+    ShareSDK {
+        devInfo {
+            SinaWeibo {
+                appKey "568898243"
+                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                callbackUri "http://www.sharesdk.cn"
+                shareByAppClient false
+            }
+            Wechat {
+                appId "wxeb741c10c1b85cac"
+                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
+            }
+            WechatFavorite {
+                appId "wxeb741c10c1b85cac"
+                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
+            }
+            WechatMoments {
+                appId "wxeb741c10c1b85cac"
+                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
+            }
+            QQ {
+
+            }
+//            QZone {
+//
+//            }
+            Alipay {
+
+            }
+            Meipai {
+            }
+//            Facebook {
+//
+//            }
+        }
+    }
+}
+
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.xing.weijian"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 高斯模糊相关
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+
+    }
+
+    signingConfigs {
+        config {
+            keyAlias 'android.keystore'
+            keyPassword 'xing123456'
+            storeFile file('E:/MyStudy/AndroidStudio/SmallFish/app/keystore/android.keystore')
+            storePassword 'xing123456'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.config
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation files('libs/AMap_Location_V3.4.0_20170427.jar')
+    implementation files('libs/TinyPinyin.jar')
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
+    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
+}
