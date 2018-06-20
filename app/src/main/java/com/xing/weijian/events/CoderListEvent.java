@@ -12,12 +12,19 @@ public class CoderListEvent {
 
     private List<CoderBean> coderBeanList;
 
-    public CoderListEvent(List<CoderBean> coderBeanList) {
+    private String type;
+
+    public CoderListEvent(List<CoderBean> coderBeanList, String type) {
         this.coderBeanList = coderBeanList;
+        this.type = type;
     }
 
-    public List<CoderBean> getCoderBeanList(){
+    public List<CoderBean> getCoderBeanList() {
         return coderBeanList;
+    }
+
+    public String getType() {
+        return type;
     }
 
 

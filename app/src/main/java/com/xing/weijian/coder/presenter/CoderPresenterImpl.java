@@ -31,10 +31,15 @@ public class CoderPresenterImpl extends BasePresenter<CoderView> {
         coderModel.loadData(type, pageSize, curPage);
     }
 
+    /**
+     * 请求到的数据返回时，通过 eventbus 传递时，需要携带 type,否则 viewpager 中的所有的 fragment 都将更新数据
+     *
+     * @param event
+     */
     @Subscribe
     public void onCoderListEvent(CoderListEvent event) {
         if (isViewAttached()) {
-            getView().refreshUI(event.getCoderBeanList());
+            getView().refreshUI(event.getCoderBeanList(), event.getType());
             getView().hideLoading();
         }
     }

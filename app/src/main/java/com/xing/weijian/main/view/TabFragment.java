@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -19,6 +22,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView;
 import com.xing.weijian.R;
 import com.xing.weijian.base.BaseFragment;
+import com.xing.weijian.base.BaseLazyFragment;
 import com.xing.weijian.coder.view.WebViewActivity;
 import com.xing.weijian.coder.model.CoderBean;
 import com.xing.weijian.coder.presenter.CoderPresenterImpl;
@@ -32,8 +36,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-public class TabFragment extends BaseFragment implements CoderView {
+/**
+ * ViewPager 中的 Fragment, 实现了懒加载的数据请求
+ */
+public class TabFragment extends BaseLazyFragment implements CoderView {
+
+    private static final String TAG = "TabFragment";
 
     public static final String TAB_ANDROID = "Android";
 
@@ -48,7 +59,6 @@ public class TabFragment extends BaseFragment implements CoderView {
     @BindView(R.id.tab_recycler_view)
     XRecyclerView recyclerView;
 
-
     @BindView(R.id.pb_coder_progress)
     ProgressBar progressBar;
 
@@ -58,10 +68,11 @@ public class TabFragment extends BaseFragment implements CoderView {
 
     private List<CoderBean> mDataList;
 
-    private Context mContext;
+    private Unbinder unbinder;
 
     public TabFragment() {
     }
+
 
     public static TabFragment newInstance(String type) {
         TabFragment tabFragment = new TabFragment();
@@ -72,13 +83,41 @@ public class TabFragment extends BaseFragment implements CoderView {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
+    protected int getLayoutResId() {
+        return R.layout.fragment_tab;
     }
 
     @Override
-    protected void setListener() {
+    protected void init() {
+        unbinder = ButterKnife.bind(this, view);
+        setRecyclerView();
+        mDataList = new ArrayList<>();
+        coderPresenterImpl = new CoderPresenterImpl();
+        coderPresenterImpl.attachView(this);
+        // 注册 EventBus
+        coderPresenterImpl.onStart();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            type = bundle.getString("type");
+        }
+        setListener();
+    }
+
+
+    private void setRecyclerView() {
+        recyclerView.setPullRefreshEnabled(true);
+        recyclerView.setArrowImageView(R.drawable.refresh_arrow_down);
+        recyclerView.setLoadingMoreEnabled(true);
+        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.CubeTransition);
+    }
+
+
+    @Override
+    protected void loadData() {
+        coderPresenterImpl.loadData(type, pageSize, curPage);
+    }
+
+    private void setListener() {
         recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -99,7 +138,6 @@ public class TabFragment extends BaseFragment implements CoderView {
             }
         });
 
-
         recyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(recyclerView) {
             @Override
             public void onItemClick(RecyclerView.ViewHolder viewHolder) {
@@ -117,83 +155,64 @@ public class TabFragment extends BaseFragment implements CoderView {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_tab;
-    }
-
-    @Override
-    protected void initView() {
-    }
-
-
-    @Override
-    protected void initData() {
-        mDataList = new ArrayList<>();
-        setRecyclerView();
-        coderPresenterImpl = new CoderPresenterImpl();
-        coderPresenterImpl.attachView(this);
-        // 注册 EventBus
-        coderPresenterImpl.onStart();
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            type = bundle.getString("type");
+    public void refreshUI(final List<CoderBean> list, String reqType) {
+        if (TextUtils.isEmpty(reqType)) {
+            return;
         }
-        coderPresenterImpl.loadData(type, pageSize, curPage);
-
-    }
-
-    private void setRecyclerView() {
-        recyclerView.setPullRefreshEnabled(true);
-        recyclerView.setArrowImageView(R.drawable.refresh_arrow_down);
-        recyclerView.setLoadingMoreEnabled(true);
-        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.CubeTransition);
-    }
-
-    @Override
-    protected ProgressBar getProgressBar() {
-        return progressBar;
-    }
-
-
-    @Override
-    public void loadNextPage() {
-
-    }
-
-    @Override
-    public void refreshUI(final List<CoderBean> list) {
-        if (curPage == 1) {    // 下拉刷新
-            mDataList.addAll(0, list);
-        } else {     // 上拉加载更多
-            recyclerView.loadMoreComplete();    // 加载更多完成
+        if (type.equals(reqType)) {
             mDataList.addAll(list);
-        }
-        if (adapter == null) {
-            adapter = new RecyclerAdapter<CoderBean>(mContext, mDataList, R.layout.item_recycler_coder) {
-                @Override
-                public void convert(RecyclerViewHolder holder, CoderBean data) {
-                    ImageView imageView = holder.getView(R.id.iv_icon);
-                    TextView textView = holder.getView(R.id.tv_text);
-                    textView.setText(data.getDesc());
-                    List<String> images = data.getImages();
-                    if (images != null) {
-                        imageView.setVisibility(View.VISIBLE);
-                        Glide.with(getActivity()).load(images.get(0)).into(imageView);
+            if (adapter == null) {
+                adapter = new RecyclerAdapter<CoderBean>(mContext, mDataList, R.layout.item_recycler_coder) {
+                    @Override
+                    public void convert(RecyclerViewHolder holder, CoderBean data) {
+                        ImageView imageView = holder.getView(R.id.iv_icon);
+                        TextView textView = holder.getView(R.id.tv_text);
+                        textView.setText(data.getDesc());
+                        List<String> images = data.getImages();
+                        if (images != null) {
+                            imageView.setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(images.get(0)).into(imageView);
+                        }
                     }
-                }
-            };
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            recyclerView.addItemDecoration(new DividerListItemDecoration(mContext));
-            recyclerView.setAdapter(adapter);
-        } else {
-            adapter.setDataList(mDataList);
+                };
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.addItemDecoration(new DividerListItemDecoration(mContext));
+                recyclerView.setAdapter(adapter);
+            } else {
+                adapter.setDataList(mDataList);
+            }
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
         // 注销 EventBus
-        coderPresenterImpl.onStop();
+        if (coderPresenterImpl != null) {
+            coderPresenterImpl.onStop();
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showToast(String msg) {
+
+    }
+
+    @Override
+    public void showError() {
+
     }
 }

@@ -3,6 +3,8 @@ package com.xing.weijian.base;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class FragmentViewPagerAdapter<T extends Fragment> extends FragmentPagerA
         super(fm);
     }
 
-    public void setFragmentList(String[] titles, List<T> fragments) {
+    public void setPages(String[] titles, List<T> fragments) {
         this.titles = titles;
         this.fragmentList = fragments;
     }
@@ -38,5 +40,21 @@ public class FragmentViewPagerAdapter<T extends Fragment> extends FragmentPagerA
     @Override
     public CharSequence getPageTitle(int position) {
         return titles[position];
+    }
+
+    /**
+     * 在没有重写FragmentPagerAdapter 的 destroyItem(),切换过的 Fragment 再次显示时，会销毁重新创建，
+     * 请求的数据也丢失，为了保留已经加载过的 Fragment 数据，需要 Fragment 不销毁。
+     * 即不调用父类方法
+     */
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+//            super.destroyItem(container, position, object);
+    }
+
+
+    @Override
+    public void destroyItem(View container, int position, Object object) {
+//            super.destroyItem(container, position, object);
     }
 }

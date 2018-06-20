@@ -23,7 +23,7 @@ public class CoderModelImpl implements CoderModel {
     private static final String TAG = "CoderModelImpl";
 
     @Override
-    public void loadData(String type, int pageSize, int curPage) {
+    public void loadData(final String type, int pageSize, int curPage) {
         RetrofitClient.getInstance()
                 .getApiService()
                 .getCoderText(type, pageSize, curPage)
@@ -33,7 +33,7 @@ public class CoderModelImpl implements CoderModel {
                     @Override
                     public void onObserverNext(List<CoderBean> data) {
                         Log.d(TAG, "onObserverNext: data = " + data);
-                        EventBus.getDefault().post(new CoderListEvent(data));
+                        EventBus.getDefault().post(new CoderListEvent(data, type));
                     }
                 });
 

@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.xing.weijian.R;
 import com.xing.weijian.base.BaseFragment;
@@ -73,14 +72,12 @@ public class CoderFragment extends BaseFragment {
         List<TabFragment> fragmentList = new ArrayList<>();
         fragmentList.add(TabFragment.newInstance(TabFragment.TAB_ANDROID));
         fragmentList.add(TabFragment.newInstance(TabFragment.TAB_IOS));
-        adapter = new FragmentViewPagerAdapter<>(getChildFragmentManager());
-        adapter.setFragmentList(titles, fragmentList);
+        adapter = new FragmentViewPagerAdapter<TabFragment>(getChildFragmentManager());
+        adapter.setPages(titles, fragmentList);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
         setIndicator(tabLayout, 60, 60);
     }
-
 
     /**
      * 设置 TabLayout 横线宽度

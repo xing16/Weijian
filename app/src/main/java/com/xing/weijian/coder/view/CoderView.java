@@ -11,9 +11,7 @@ import java.util.List;
 
 public interface CoderView extends BaseView {
 
-    void loadNextPage();
-
-    void refreshUI(List<CoderBean> list);
+    void refreshUI(List<CoderBean> list,String type);
 
 
 }

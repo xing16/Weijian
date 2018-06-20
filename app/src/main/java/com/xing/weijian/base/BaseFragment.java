@@ -1,6 +1,7 @@
 package com.xing.weijian.base;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment implements BaseView {
+
+    protected Context mContext;
 
     protected View view;
 
@@ -33,6 +36,12 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         initData();
         setListener();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     protected abstract void initView();
