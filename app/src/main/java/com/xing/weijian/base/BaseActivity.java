@@ -24,7 +24,7 @@ import com.xing.weijian.utils.ToastUtil;
  * Created by Administrator on 2017/5/6.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
 
@@ -49,31 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     protected ProgressBar getProgressBar() {
         return null;
-    }
-
-
-    @Override
-    public void showLoading() {
-        if (getProgressBar() != null) {
-            getProgressBar().setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (getProgressBar() != null) {
-            getProgressBar().setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showToast(String msg) {
-        ToastUtil.showShortToast(msg);
-    }
-
-    @Override
-    public void showError() {
-
     }
 
     /**

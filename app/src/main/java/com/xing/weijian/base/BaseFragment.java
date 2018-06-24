@@ -12,11 +12,10 @@ import android.widget.ProgressBar;
 import com.xing.weijian.base.mvp.BaseView;
 import com.xing.weijian.utils.ToastUtil;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends Fragment implements BaseView {
+public abstract class BaseFragment extends Fragment {
 
     protected Context mContext;
 
@@ -30,8 +29,8 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
                                    Bundle savedInstanceState) {
-        view = inflater.inflate(getLayoutId(), container, false);
-        unbinder = ButterKnife.bind(this, view);
+        view = inflater.inflate(getLayoutResId(), container, false);
+//        unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
         setListener();
@@ -49,7 +48,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     protected void setListener() {
     }
 
-    protected abstract int getLayoutId();
+    protected abstract int getLayoutResId();
 
     protected abstract void initData();
 
@@ -60,31 +59,6 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
-    }
-
-
-    @Override
-    public void showLoading() {
-        if (getProgressBar() != null) {
-            getProgressBar().setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (getProgressBar() != null) {
-            getProgressBar().setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showToast(String msg) {
-        ToastUtil.showShortToast(msg);
-    }
-
-    @Override
-    public void showError() {
-        ToastUtil.showShortToast("load failed");
+//        unbinder.unbind();
     }
 }

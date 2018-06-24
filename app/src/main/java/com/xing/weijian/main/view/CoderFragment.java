@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,17 +56,16 @@ public class CoderFragment extends BaseFragment {
 
             }
         });
-
-
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.fragment_coder;
     }
 
 
     protected void initView() {
+        ButterKnife.bind(this,view);
     }
 
     protected void initData() {
@@ -103,7 +103,6 @@ public class CoderFragment extends BaseFragment {
             e.printStackTrace();
             return;
         }
-
         int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
         int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
 
@@ -117,6 +116,5 @@ public class CoderFragment extends BaseFragment {
             child.invalidate();
         }
     }
-
 }
 

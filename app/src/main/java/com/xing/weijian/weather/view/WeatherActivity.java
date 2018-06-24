@@ -17,14 +17,10 @@ import com.amap.api.location.AMapLocation;
 import com.xing.weijian.R;
 import com.xing.weijian.base.BaseActivity;
 import com.xing.weijian.city.view.CityListActivity;
-import com.xing.weijian.events.CityListEvent;
 import com.xing.weijian.utils.DateUtil;
 import com.xing.weijian.utils.WeatherUtil;
 import com.xing.weijian.weather.db.domain.Weather;
 import com.xing.weijian.weather.presenter.WeatherPresenterImpl;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 import java.util.List;
@@ -145,6 +141,7 @@ public class WeatherActivity extends BaseActivity implements WeatherView {
     @Override
     protected void initData() {
         weatherPresenter = new WeatherPresenterImpl(this);
+        weatherPresenter.registerEvents();
         weatherPresenter.getLocation();
     }
 
@@ -177,13 +174,15 @@ public class WeatherActivity extends BaseActivity implements WeatherView {
     @Override
     protected void onStop() {
         super.onStop();
-        weatherPresenter.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        weatherPresenter.detachView();
+        if (weatherPresenter != null) {
+            weatherPresenter.unregisterEvents();
+            weatherPresenter.detachView();
+        }
 
     }
 

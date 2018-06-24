@@ -2,11 +2,9 @@ package com.xing.weijian.weather.presenter;
 
 import android.util.Log;
 
-import com.amap.api.location.AMapLocation;
 import com.xing.weijian.base.mvp.BasePresenter;
 import com.xing.weijian.events.LocationEvent;
 import com.xing.weijian.events.WeatherEvent;
-import com.xing.weijian.weather.db.domain.Weather;
 import com.xing.weijian.weather.model.WeatherModel;
 import com.xing.weijian.weather.model.WeatherModelImpl;
 import com.xing.weijian.weather.view.WeatherView;
@@ -28,7 +26,7 @@ public class WeatherPresenterImpl extends BasePresenter<WeatherView> {
     public WeatherPresenterImpl(WeatherView weatherView) {
         attachView(weatherView);
         weatherModel = new WeatherModelImpl();
-        onStart();
+
     }
 
     public void getLocation() {
@@ -36,11 +34,16 @@ public class WeatherPresenterImpl extends BasePresenter<WeatherView> {
             return;
         }
         // 加载loading
-        getView().showLoading();
 
         weatherModel.getLocation();
+    }
 
+    public void registerEvents() {
+        EventBus.getDefault().register(this);
+    }
 
+    public void unregisterEvents() {
+        EventBus.getDefault().unregister(this);
     }
 
 

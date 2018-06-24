@@ -3,24 +3,23 @@ package com.xing.weijian.main.view;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xing.weijian.R;
 import com.xing.weijian.about.AboutActivity;
 import com.xing.weijian.base.BaseActivity;
-import com.xing.weijian.main.presenter.MainPresenter;
 import com.xing.weijian.main.presenter.MainPresenterImpl;
 import com.xing.weijian.meizi.view.MeiziFragment;
 import com.xing.weijian.utils.BlurUtil;
@@ -49,9 +48,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private MainPresenter mainPresenter;
+    private MainPresenterImpl mainPresenter;
 
-    private int curItemSelectedId = R.id.nav_group;    // NavigationView 当前选中的item id
+    private int curItemSelectedId = -1000;    // NavigationView 当前选中的item id
 
     @Override
     protected int getLayoutResId() {
@@ -95,7 +94,8 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     protected void initData() {
         super.initData();
-        mainPresenter = new MainPresenterImpl(this);
+        mainPresenter = new MainPresenterImpl();
+        mainPresenter.attachView(this);
         // 初始化时显示 CoderFragment
         mainPresenter.switchNavigationView(R.id.nav_coder);
     }
@@ -146,7 +146,6 @@ public class MainActivity extends BaseActivity implements MainView {
                 .beginTransaction()
                 .replace(R.id.layout_main, new MeiziFragment())
                 .commit();
-
     }
 
     @Override
@@ -185,8 +184,26 @@ public class MainActivity extends BaseActivity implements MainView {
         return super.onKeyDown(keyCode, event);
     }
 
-//    @Override
-//    public void onBackPressed() {
-////        moveTaskToBack(true);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_meizi, menu);
+        return true;
+    }
+
+    /**
+     * 只在 meizi fragment 时才显示出更多菜单
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_meizi_scan).setVisible(curItemSelectedId == R.id.nav_meizi);
+        invalidateOptionsMenu();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+
+
 }

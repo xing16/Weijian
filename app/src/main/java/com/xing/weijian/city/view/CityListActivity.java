@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.LogTime;
 import com.xing.weijian.R;
 import com.xing.weijian.base.BaseActivity;
 import com.xing.weijian.city.presenter.CityPresenterImpl;
@@ -94,7 +93,7 @@ public class CityListActivity extends BaseActivity implements CityView {
         indexView.setWords(words);
         presenter = new CityPresenterImpl();
         presenter.attachView(this);
-        presenter.onStart();
+        presenter.registerEvents();
 
         // 请求数据
         presenter.getData();
@@ -222,18 +221,6 @@ public class CityListActivity extends BaseActivity implements CityView {
     }
 
     @Override
-    public void showLoading() {
-        super.showLoading();
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        super.hideLoading();
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
     }
@@ -241,7 +228,7 @@ public class CityListActivity extends BaseActivity implements CityView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onStop();
+        presenter.unregisterEvents();
         presenter.detachView();
     }
 }

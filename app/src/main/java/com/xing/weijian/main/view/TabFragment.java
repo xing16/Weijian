@@ -1,32 +1,28 @@
 package com.xing.weijian.main.view;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jcodecraeer.xrecyclerview.LoadingMoreFooter;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView;
 import com.xing.weijian.R;
-import com.xing.weijian.base.BaseFragment;
 import com.xing.weijian.base.BaseLazyFragment;
 import com.xing.weijian.coder.view.WebViewActivity;
 import com.xing.weijian.coder.model.CoderBean;
 import com.xing.weijian.coder.presenter.CoderPresenterImpl;
 import com.xing.weijian.coder.view.CoderView;
+import com.xing.weijian.utils.DensityUtil;
 import com.xing.weijian.view.recyclerview.DividerListItemDecoration;
 import com.xing.weijian.view.recyclerview.OnRecyclerItemClickListener;
 import com.xing.weijian.view.recyclerview.RecyclerAdapter;
@@ -52,7 +48,7 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
 
     private String type = TAB_ANDROID;
 
-    private int pageSize = 20;
+    private int pageSize = 10;
 
     private int curPage = 1;
 
@@ -95,7 +91,7 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
         coderPresenterImpl = new CoderPresenterImpl();
         coderPresenterImpl.attachView(this);
         // 注册 EventBus
-        coderPresenterImpl.onStart();
+        coderPresenterImpl.registerEvents();
         Bundle bundle = getArguments();
         if (bundle != null) {
             type = bundle.getString("type");
@@ -165,13 +161,23 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
                 adapter = new RecyclerAdapter<CoderBean>(mContext, mDataList, R.layout.item_recycler_coder) {
                     @Override
                     public void convert(RecyclerViewHolder holder, CoderBean data) {
-                        ImageView imageView = holder.getView(R.id.iv_icon);
-                        TextView textView = holder.getView(R.id.tv_text);
-                        textView.setText(data.getDesc());
+                        ImageView imageView = holder.getView(R.id.iv_coder_icon);
+                        imageView.setImageResource(R.drawable.ic_default_picture);
+                        TextView titleTxtView = holder.getView(R.id.tv_coder_title);
+                        TextView authorTxtView = holder.getView(R.id.tv_coder_author);
+                        titleTxtView.setText(data.getDesc());
+                        authorTxtView.setText(data.getWho());
                         List<String> images = data.getImages();
-                        if (images != null) {
+                        if (images != null && images.size() > 0) {
                             imageView.setVisibility(View.VISIBLE);
-                            Glide.with(getActivity()).load(images.get(0)).into(imageView);
+                            Glide.with(getActivity())
+                                    .load(images.get(0))
+                                    .override(DensityUtil.dp2px(getContext(), 80f), DensityUtil.dp2px(getContext(), 80f))
+                                    .placeholder(R.drawable.ic_default_picture)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(imageView);
+                        } else {
+                            imageView.setVisibility(View.GONE);
                         }
                     }
                 };
@@ -192,27 +198,7 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
         }
         // 注销 EventBus
         if (coderPresenterImpl != null) {
-            coderPresenterImpl.onStop();
+            coderPresenterImpl.unregisterEvents();
         }
-    }
-
-    @Override
-    public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showToast(String msg) {
-
-    }
-
-    @Override
-    public void showError() {
-
     }
 }

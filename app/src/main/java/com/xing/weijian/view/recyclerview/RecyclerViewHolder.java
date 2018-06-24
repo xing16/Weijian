@@ -3,6 +3,7 @@ package com.xing.weijian.view.recyclerview;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,17 +20,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private SparseArray<View> viewSparseArray;
 
 
-    public RecyclerViewHolder(Context context, View itemView, ViewGroup parent) {
+    public RecyclerViewHolder(Context context, View itemView) {
         super(itemView);
         mContext = context;
         convertView = itemView;
         viewSparseArray = new SparseArray<>();
     }
 
-    public static RecyclerViewHolder get(Context context, ViewGroup parent, int layoutId) {
-        View view = View.inflate(context, layoutId, null);
-        RecyclerViewHolder holder = new RecyclerViewHolder(context, view, parent);
-
+    public static RecyclerViewHolder get(Context context, LayoutInflater inflater, int layoutId, ViewGroup parent) {
+        View itemView = inflater.inflate(layoutId, parent, false);
+        RecyclerViewHolder holder = new RecyclerViewHolder(context, itemView);
         return holder;
     }
 

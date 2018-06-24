@@ -10,6 +10,7 @@ import com.xing.weijian.city.view.CityView;
 import com.xing.weijian.events.CityListEvent;
 import com.xing.weijian.weather.db.domain.City;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -31,16 +32,25 @@ public class CityPresenterImpl extends BasePresenter<CityView> {
         if (!isViewAttached()) {
             return;
         }
-        getView().showLoading();
         cityModel.getCityList();
     }
+
+
+
+    public void registerEvents() {
+        EventBus.getDefault().register(this);
+    }
+
+    public void unregisterEvents() {
+        EventBus.getDefault().unregister(this);
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCityListEvent(CityListEvent event) {
         if (event == null || !isViewAttached()) {
             return;
         }
-        getView().hideLoading();
         getView().showCityList(event.getCityList());
     }
 }

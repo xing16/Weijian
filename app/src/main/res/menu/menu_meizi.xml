@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_meizi_scan"
+        android:icon="@drawable/vector_more"
+        android:title="search"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/action_meizi_linear"
+                android:icon="@drawable/list"
+                android:orderInCategory="1"
+                android:title="linear"
+                android:visible="true" />
+
+            <item
+                android:id="@+id/action_meizi_grid"
+                android:icon="@drawable/grid"
+                android:orderInCategory="1"
+                android:title="grid"
+                android:visible="true" />
+
+            <item
+                android:id="@+id/action_meizi_stragger"
+                android:icon="@drawable/list"
+                android:orderInCategory="1"
+                android:title="stagger"
+                android:visible="true" />
+        </menu>
+
+    </item>
+
+
+</menu>

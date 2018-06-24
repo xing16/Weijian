@@ -12,7 +12,6 @@ public class BasePresenter<V extends BaseView> {
 
     private V view;
 
-
     /**
      * 绑定 view,在初始化中调用该方法
      *
@@ -45,14 +44,14 @@ public class BasePresenter<V extends BaseView> {
     }
 
 
-    public void onStart() {
-        EventBus.getDefault().register(this);
-    }
-
-
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-    }
+//    public void registerEventBus() {
+//        EventBus.getDefault().register(this);
+//    }
+//
+//
+//    public void unregisterEventBus() {
+//        EventBus.getDefault().unregister(this);
+//    }
 
 
 }
