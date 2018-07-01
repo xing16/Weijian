@@ -60,13 +60,11 @@
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".splash.AdActivity" />
         <activity android:name=".main.view.MainActivity" />
@@ -74,9 +72,13 @@
         <activity android:name=".weather.view.WeatherActivity" />
         <activity android:name=".city.view.CityListActivity" />
         <activity android:name=".about.AboutActivity" />
+        <activity
+            android:name=".meizi.view.PicturePreviewActivity"
+            android:theme="@style/FullScreenTheme" />
 
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
+
 
     </application>
 

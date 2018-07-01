@@ -1,5 +1,7 @@
 package com.xing.weijian.meizi.presenter;
 
+import android.util.Log;
+
 import com.xing.weijian.base.mvp.BasePresenter;
 import com.xing.weijian.events.MeiziListEvent;
 import com.xing.weijian.meizi.model.MeiziBean;
@@ -17,6 +19,8 @@ import java.util.List;
  */
 
 public class MeiziPresenterImpl extends BasePresenter<MeiziView> {
+
+    private static final String TAG = "MeiziPresenterImpl";
 
     private MeiziModel meiziModel;
 
@@ -36,13 +40,13 @@ public class MeiziPresenterImpl extends BasePresenter<MeiziView> {
         EventBus.getDefault().unregister(this);
     }
 
-
     @Subscribe
     public void onMeiziListEvent(MeiziListEvent event) {
         if (event == null) {
             return;
         }
         List<MeiziBean> meiziBeanList = event.getMeiziBeanList();
+        Log.d(TAG, "onMeiziListEvent: ===== " + meiziBeanList);
         if (isViewAttached()) {
             getView().refreshUI(meiziBeanList);
         }

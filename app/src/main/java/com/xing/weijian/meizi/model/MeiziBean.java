@@ -1,10 +1,15 @@
 package com.xing.weijian.meizi.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/6/23.
  */
 
-public class MeiziBean {
+public class MeiziBean implements Serializable {
 
 
     /**

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.xing.weijian.R;
 import com.xing.weijian.about.AboutActivity;
 import com.xing.weijian.base.BaseActivity;
@@ -30,6 +32,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainView {
+
+    private static final String TAG = "MainActivity";
+
+    private static final String TAG_FRAGMENT_CODER = "CoderFragment";
+
+    private static final String TAG_FRAGMENT_MEIZI = "MeiziFragment";
 
     ShapeImageView avatarImgView;
 
@@ -136,7 +144,7 @@ public class MainActivity extends BaseActivity implements MainView {
     public void switchToCoder() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_main, new CoderFragment())
+                .replace(R.id.layout_main, new CoderFragment(), TAG_FRAGMENT_CODER)
                 .commit();
     }
 
@@ -144,7 +152,7 @@ public class MainActivity extends BaseActivity implements MainView {
     public void switchToMeizi() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_main, new MeiziFragment())
+                .replace(R.id.layout_main, new MeiziFragment(), TAG_FRAGMENT_MEIZI)
                 .commit();
     }
 
@@ -204,6 +212,11 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
+        MeiziFragment fragment = (MeiziFragment)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MEIZI);
+        fragment.changeShow(item.getItemId());
+        return true;
+    }
 }

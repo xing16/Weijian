@@ -42,4 +42,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
+    public View getItemView() {
+        return itemView;
+    }
+
+
 }

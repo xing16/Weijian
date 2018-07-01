@@ -105,6 +105,8 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
         recyclerView.setArrowImageView(R.drawable.refresh_arrow_down);
         recyclerView.setLoadingMoreEnabled(true);
         recyclerView.setLoadingMoreProgressStyle(ProgressStyle.CubeTransition);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerListItemDecoration(mContext));
     }
 
 
@@ -162,7 +164,7 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
                     @Override
                     public void convert(RecyclerViewHolder holder, CoderBean data) {
                         ImageView imageView = holder.getView(R.id.iv_coder_icon);
-                        imageView.setImageResource(R.drawable.ic_default_picture);
+                        imageView.setImageResource(R.drawable.ic_default_pic);
                         TextView titleTxtView = holder.getView(R.id.tv_coder_title);
                         TextView authorTxtView = holder.getView(R.id.tv_coder_author);
                         titleTxtView.setText(data.getDesc());
@@ -173,7 +175,8 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
                             Glide.with(getActivity())
                                     .load(images.get(0))
                                     .override(DensityUtil.dp2px(getContext(), 80f), DensityUtil.dp2px(getContext(), 80f))
-                                    .placeholder(R.drawable.ic_default_picture)
+                                    .placeholder(R.drawable.ic_default_pic)
+                                    .error(R.drawable.ic_default_pic)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                                     .into(imageView);
                         } else {
@@ -181,8 +184,6 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
                         }
                     }
                 };
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.addItemDecoration(new DividerListItemDecoration(mContext));
                 recyclerView.setAdapter(adapter);
             } else {
                 adapter.setDataList(mDataList);
