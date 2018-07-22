@@ -2,6 +2,7 @@ package com.xing.weijian.utils;
 
 import android.util.Log;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +40,11 @@ public class DateUtil {
             e.printStackTrace();
         }
         return new Date();
+    }
+
+    public static String formatDate(long millis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        return sdf.format(millis);
     }
 
 

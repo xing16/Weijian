@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +58,10 @@ public class MainActivity extends BaseActivity implements MainView {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private MainPresenterImpl mainPresenter;
+
+    private CoderFragment coderFragment;
+
+    private MeiziFragment meiziFragment;
 
     private int curItemSelectedId = -1000;    // NavigationView 当前选中的item id
 
@@ -142,18 +147,26 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void switchToCoder() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_main, new CoderFragment(), TAG_FRAGMENT_CODER)
-                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (coderFragment == null) {
+            coderFragment = new CoderFragment();
+            transaction.add(R.id.layout_main, coderFragment, TAG_FRAGMENT_CODER).show(coderFragment);
+        } else {
+            transaction.show(coderFragment).hide(meiziFragment);
+        }
+        transaction.commit();
     }
 
     @Override
     public void switchToMeizi() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_main, new MeiziFragment(), TAG_FRAGMENT_MEIZI)
-                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (meiziFragment == null) {
+            meiziFragment = new MeiziFragment();
+            transaction.add(R.id.layout_main, meiziFragment, TAG_FRAGMENT_MEIZI).show(meiziFragment);
+        } else {
+            transaction.show(meiziFragment).hide(coderFragment);
+        }
+        transaction.commit();
     }
 
     @Override
@@ -215,8 +228,10 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
-        MeiziFragment fragment = (MeiziFragment)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MEIZI);
-        fragment.changeShow(item.getItemId());
+        MeiziFragment fragment = (MeiziFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MEIZI);
+        if (fragment != null) {
+            fragment.changeShow(item.getItemId());
+        }
         return true;
     }
 }

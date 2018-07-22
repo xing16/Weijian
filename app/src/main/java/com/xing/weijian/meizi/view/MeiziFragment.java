@@ -101,6 +101,7 @@ public class MeiziFragment extends BaseFragment implements MeiziView {
         if (meiziBeanList == null) {
             return;
         }
+        Log.d(TAG, "refreshUI: meiziBeanList = " + meiziBeanList.size());
         mDataList.addAll(meiziBeanList);
         if (mAdapter == null) {
             mAdapter = new RecyclerAdapter<MeiziBean>(mContext, mDataList, R.layout.item_recycler_meizi) {

@@ -1,6 +1,7 @@
 package com.xing.weijian.coder.view;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,6 +13,7 @@ import android.webkit.WebView;
 import com.xing.weijian.R;
 import com.xing.weijian.base.BaseActivity;
 import com.xing.weijian.base.BaseToolbarActivity;
+import com.xing.weijian.common.OneKeyShareClient;
 import com.xing.weijian.view.BaseWebView;
 
 import butterknife.BindView;
@@ -71,9 +73,14 @@ public class WebViewActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_web_share:
-                        OnekeyShare onekeyShare = new OnekeyShare();
-                        onekeyShare.setUrl(webView.getUrl());
-                        onekeyShare.show(mContext);
+                        // 一键分享
+                        new OneKeyShareClient.Builder()
+                                .setText("测试分享功能....")
+                                .setUrl(webView.getUrl())
+                                .setImagePath(Environment.getExternalStorageDirectory() + "/a.png")
+                                .setSilent(true)
+                                .build()
+                                .show(mContext);
                         break;
                 }
                 return true;

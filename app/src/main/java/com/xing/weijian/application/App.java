@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.mob.MobSDK;
+import com.xing.weijian.service.SDKInitializeService;
 
 /**
  * Created by Administrator on 2017/11/25.
@@ -18,9 +19,8 @@ public class App extends Application {
         super.onCreate();
         mContext = getApplicationContext();
 
-        // 初始化 sharesdk
-        MobSDK.init(this);
-
+        // SDK 懒加载
+        SDKInitializeService.start(mContext);
     }
 
     public static Context getContext() {

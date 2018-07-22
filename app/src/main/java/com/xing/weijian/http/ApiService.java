@@ -7,9 +7,12 @@ import com.xing.weijian.weather.db.domain.Weather;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by Administrator on 2017/9/2.
@@ -34,6 +37,10 @@ public interface ApiService {
 
     @GET("https://free-api.heweather.com/s6/weather/forecast")
     Observable<Weather> getWeatherByCity(@QueryMap Map<String, String> params);
+
+    @Streaming
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String url);
 
 
 }

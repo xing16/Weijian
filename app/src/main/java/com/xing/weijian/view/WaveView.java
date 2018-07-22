@@ -50,6 +50,7 @@ public class WaveView extends View {
     private Position position = Position.BOTTOM;
 
     private float waveMargin;
+    private ValueAnimator valueAnimator;
 
     public WaveView(Context context) {
         this(context, null);
@@ -185,7 +186,9 @@ public class WaveView extends View {
     float offset = 0;
 
     private void animateToLeft() {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, -mWidth);
+        if (valueAnimator == null) {
+            valueAnimator = ValueAnimator.ofFloat(0, -mWidth);
+        }
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setRepeatCount(-1);
         valueAnimator.setDuration(1500);
@@ -215,6 +218,12 @@ public class WaveView extends View {
 
     private float dp2Px(int dpValue) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
+    }
+
+    public void stopAnimator() {
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+        }
     }
 
 

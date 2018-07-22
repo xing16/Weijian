@@ -66,6 +66,7 @@ public class CityListActivity extends BaseActivity implements CityView {
     private List<City> mSearchList = new ArrayList<>();
 
     private LinearLayoutManager layoutManager;
+
     private SectionItemDecoration itemDecoration;
 
 
@@ -218,6 +219,11 @@ public class CityListActivity extends BaseActivity implements CityView {
             }
         });
         recyclerView.addItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public void dismissProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

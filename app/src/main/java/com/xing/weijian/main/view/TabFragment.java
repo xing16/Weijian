@@ -192,6 +192,13 @@ public class TabFragment extends BaseLazyFragment implements CoderView {
     }
 
     @Override
+    public void dismissProgressBar(String reqType) {
+        if(type.equals(reqType)) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (unbinder != null) {

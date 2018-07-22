@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+    <SinaWeibo AppKey="568898243" AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
+        RedirectUrl="http://www.sharesdk.cn" ShareByAppClient="false" />
+    <TencentWeibo Enable="false" />
+    <Douban Enable="false" />
+    <QZone Enable="false" />
+    <Renren Enable="false" />
+    <KaiXin Enable="false" />
+    <Facebook Enable="false" />
+    <Twitter Enable="false" />
+    <Evernote Enable="false" />
+    <FourSquare Enable="false" />
+    <GooglePlus Enable="false" />
+    <Instagram Enable="false" />
+    <LinkedIn Enable="false" />
+    <Tumblr Enable="false" />
+    <Email Enable="false" />
+    <ShortMessage Enable="false" />
+    <Wechat AppId="wxeb741c10c1b85cac" AppSecret="f7fb87d75b0671a1c5cfd6ae057801a9" />
+    <WechatMoments AppId="wxeb741c10c1b85cac" AppSecret="f7fb87d75b0671a1c5cfd6ae057801a9" />
+    <Instapaper Enable="false" />
+    <Pocket Enable="false" />
+    <YouDao Enable="false" />
+    <Pinterest Enable="false" />
+    <Flickr Enable="false" />
+    <Dropbox Enable="false" />
+    <VKontakte Enable="false" />
+    <WechatFavorite AppId="wxeb741c10c1b85cac" AppSecret="f7fb87d75b0671a1c5cfd6ae057801a9" />
+    <Yixin Enable="false" />
+    <YixinMoments Enable="false" />
+    <Mingdao Enable="false" />
+    <Line Enable="false" />
+    <WhatsApp Enable="false" />
+    <KakaoTalk Enable="false" />
+    <KakaoStory Enable="false" />
+    <FacebookMessenger Enable="false" />
+    <AlipayMoments Enable="false" />
+    <Dingding Enable="false" />
+    <Youtube Enable="false" />
+    <Meipai ClientID="null" />
+    <Telegram Enable="false" />
+</DevInfor>

@@ -22,6 +22,7 @@
         android:layout_below="@id/base_toolbar"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        app:letterColor="@color/darkBlack"
         app:mode="fill" />
 
 

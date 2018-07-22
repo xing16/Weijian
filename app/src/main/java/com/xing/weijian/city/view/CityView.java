@@ -14,4 +14,6 @@ public interface CityView extends BaseView {
 
     void showCityList(List<City> list);
 
+    void dismissProgressBar();
+
 }

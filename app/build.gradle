@@ -1,50 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.mob.sdk'
-
-// 在MobSDK的扩展中注册ShareSDK的相关信息
-MobSDK {
-    appKey "25109e172e35b"
-    appSecret "53d7e394a69bc79afcf4608d5be67d7a"
-
-    ShareSDK {
-        devInfo {
-            SinaWeibo {
-                appKey "568898243"
-                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
-                callbackUri "http://www.sharesdk.cn"
-                shareByAppClient false
-            }
-            Wechat {
-                appId "wxeb741c10c1b85cac"
-                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
-            }
-            WechatFavorite {
-                appId "wxeb741c10c1b85cac"
-                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
-            }
-            WechatMoments {
-                appId "wxeb741c10c1b85cac"
-                appSecret "f7fb87d75b0671a1c5cfd6ae057801a9"
-            }
-            QQ {
-
-            }
-//            QZone {
-//
-//            }
-            Alipay {
-
-            }
-            Meipai {
-            }
-//            Facebook {
-//
-//            }
-        }
-    }
-}
-
-
 
 android {
     compileSdkVersion 26
@@ -112,4 +66,14 @@ dependencies {
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation files('libs/MobCommons-2018.0614.1541.jar')
+    implementation files('libs/MobTools-2018.0614.1510.jar')
+    implementation files('libs/ShareSDK-Core-3.2.0.jar')
+    implementation files('libs/ShareSDK-Facebook-3.2.0.jar')
+    implementation files('libs/ShareSDK-QQ-3.2.0.jar')
+    implementation files('libs/ShareSDK-SinaWeibo-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Core-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Favorite-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Moments-3.2.0.jar')
 }

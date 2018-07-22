@@ -49,6 +49,7 @@
         android:orientation="vertical">
 
         <com.xing.weijian.view.WaveView
+            android:id="@+id/wave_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_alignParentBottom="true"

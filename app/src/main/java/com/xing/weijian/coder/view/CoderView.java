@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface CoderView extends BaseView {
 
-    void refreshUI(List<CoderBean> list,String type);
+    void refreshUI(List<CoderBean> list, String type);
 
+    void dismissProgressBar(String type);
 
 }

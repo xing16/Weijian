@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eee"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.xing.weijian.about.AboutActivity">
 
-    <include
-        layout="@layout/base_toolbar" />
+    <include layout="@layout/base_toolbar" />
 
     <com.xing.weijian.view.ArcHeaderView
         android:layout_width="match_parent"

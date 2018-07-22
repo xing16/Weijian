@@ -36,7 +36,6 @@ public class CityPresenterImpl extends BasePresenter<CityView> {
     }
 
 
-
     public void registerEvents() {
         EventBus.getDefault().register(this);
     }
@@ -51,6 +50,10 @@ public class CityPresenterImpl extends BasePresenter<CityView> {
         if (event == null || !isViewAttached()) {
             return;
         }
-        getView().showCityList(event.getCityList());
+        if (isViewAttached()) {
+            getView().showCityList(event.getCityList());
+            getView().dismissProgressBar();
+        }
+
     }
 }

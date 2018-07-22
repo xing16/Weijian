@@ -50,7 +50,9 @@ public class CoderPresenterImpl extends BasePresenter<CoderView> {
     public void onCoderListEvent(CoderListEvent event) {
         if (isViewAttached()) {
             getView().refreshUI(event.getCoderBeanList(), event.getType());
+            getView().dismissProgressBar(event.getType());
         }
+
     }
 
 }

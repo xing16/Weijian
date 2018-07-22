@@ -32,5 +32,9 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="BottomDialogAnimStyle" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_bottom_dialog_exit</item>
+    </style>
 
 </resources>

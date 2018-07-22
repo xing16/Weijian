@@ -19,6 +19,7 @@ import com.xing.weijian.base.BaseActivity;
 import com.xing.weijian.city.view.CityListActivity;
 import com.xing.weijian.utils.DateUtil;
 import com.xing.weijian.utils.WeatherUtil;
+import com.xing.weijian.view.WaveView;
 import com.xing.weijian.weather.db.domain.Weather;
 import com.xing.weijian.weather.presenter.WeatherPresenterImpl;
 
@@ -86,6 +87,8 @@ public class WeatherActivity extends BaseActivity implements WeatherView {
     @BindView(R.id.tv_temp_low_high)
     TextView tempLowHighTxtView;
 
+    @BindView(R.id.wave_view)
+    WaveView waveView;
 
     private WeatherPresenterImpl weatherPresenter;
 
@@ -183,6 +186,10 @@ public class WeatherActivity extends BaseActivity implements WeatherView {
             weatherPresenter.unregisterEvents();
             weatherPresenter.detachView();
         }
+        if (waveView != null) {
+            waveView.stopAnimator();
+            waveView = null;
+        }
 
     }
 
@@ -242,4 +249,6 @@ public class WeatherActivity extends BaseActivity implements WeatherView {
         tomorrowWeatherDescTxtView.setText(tomorrowForecastBean.getCond_txt_d());
         dayTomorrowWeatherDescTxtView.setText(afterTomorrowForecastBean.getCond_txt_d());
     }
+
+
 }
